@@ -1,0 +1,119 @@
+
+body {
+    display: flex;
+    min-height: 100%;
+    height: 100vh;
+    font-family: 'Roboto', sans-serif;
+    justify-content: center;
+    align-items: center;
+    background-color: #051923;
+}
+
+.calculator-container {
+    display: flex;
+    height: 650px;
+    width: 425px;
+    background-color: #081c15;
+    align-items: center;
+    flex-direction: column;
+    border: 5px solid #1b4332;
+    padding: 25px;
+    gap: 50px;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.output-container {
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+    min-height: 87px;
+    border-radius: 5px;
+    background-color: #f6fff8;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 10px;
+    gap: 20px;
+}
+
+button {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.calculation-info {
+    font-size: 1.5em;
+    color: #2d6a4f;
+}
+
+.calculation-answer {
+    font-size: 2em;
+    color: #1b4332;
+}
+
+.buttons-container {
+    display: flex;
+    flex-shrink: 0;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+    min-width: 425px;
+}
+
+.button {
+    display: flex;
+    width: auto;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    background-color: #52b788;
+}
+
+
+
+button {
+    width: 80px;
+    height: 80px;
+    background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	cursor: pointer;
+	outline: inherit;
+    font-size: 1.25em;
+    color: aliceblue;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button :hover {
+    background-color: #40916c;
+    border-radius: 5px;
+}
+
+.equals-container {
+    width: 195px;
+    background-color: #2d6a4f;
+    border-radius: 5px;
+}
+
+.equals-container :hover {
+    width: 195px;
+    background-color: #1b4332;
+    border-radius: 5px;
+}
+
+
+.func-button {
+    background-color: #226f54;
+    font-size: 1.35em;
+}
+
+.func-button :hover {
+    background-color: #02311f;
+    border-radius: 5px;
+}
