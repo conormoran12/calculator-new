@@ -6,8 +6,17 @@ const unaddableButtons = ["AC", "C", "="];
 
 let shiftKeyDown = false;
 
+function resetCalcCheck() {
+    if (calculationOutput.innerHTML == "Syntax Error" || calculationOutput.innerHTML != "" ) { // Resets when an answer has been already entered when clicked AC or C
+        console.log("Cleared");
+        calculationElement.innerHTML = calculationElement.innerHTML.replace(calculationElement.innerHTML, "");
+        calculationOutput.innerHTML = calculationOutput.innerHTML.replace(calculationOutput.innerHTML, "");
+    }
+}
+
 function evaluate(str) {
     let newStr = str;
+
     try {
         if (newStr.search("x")) {
             newStr = newStr.replace("x", "*");
@@ -29,62 +38,77 @@ function evaluate(str) {
     }
 }
 
-buttons.forEach((element) => {
-    element.addEventListener("click", (e) => {
-        if (element.innerHTML == "AC" || calculationOutput.innerHTML == "Syntax Error") {
-            calculationElement.innerHTML = "";
-            calculationOutput.innerHTML = "";
-            for (let i = 0; i < unaddableButtons.length; i++) {
-                if (element.innerHTML == unaddableButtons[i]) {
-                    return;
-                }
-            }
-            calculationElement.innerHTML += element.innerHTML;
-        } else if (element.innerHTML == "C") {
-            calculationElement.innerHTML = calculationElement.innerHTML.slice(0, -1);
-        } else if (element.innerHTML == "=") {
-            evaluate(calculationElement.innerHTML);
-        } else {
-            if (calculationElement.innerHTML != "" && calculationOutput.innerHTML != "") {
-                calculationElement.innerHTML = "";
-                calculationOutput.innerHTML = "";
-            }
-            calculationElement.innerHTML += element.innerHTML;
-        }
-    })
-})
-
+// Keycode handler
 document.addEventListener("keydown", (event) => {
     if (event.code == "ShiftLeft") { shiftKeyDown = true; }
-    if (shiftKeyDown == true && event.code == "Equal" && calculationElement.innerHTML.length < 36) { calculationElement.innerHTML = calculationElement.innerHTML + "+"; return; }
-    if (shiftKeyDown == true && event.code == "Digit9" && calculationElement.innerHTML.length < 36) { calculationElement.innerHTML = calculationElement.innerHTML + "("; return; }
-    if (shiftKeyDown == true && event.code == "Digit0" && calculationElement.innerHTML.length < 36) { calculationElement.innerHTML = calculationElement.innerHTML + ")"; return; }
-    if (event.code == "Slash" && calculationElement.innerHTML.length < 36) { calculationElement.innerHTML = calculationElement.innerHTML + "÷"; return; }
-    if (event.code == "Minus" && calculationElement.innerHTML.length < 36) { calculationElement.innerHTML = calculationElement.innerHTML + "-"; return; }
+    // Calculation Key
+    if (event.code == "Equal" && shiftKeyDown == false || event.code == "Enter") {  
+        if (calculationElement.innerHTML.length != 0) {
+            console.log("eval");
+            console.log("Evaluate: " + calculationElement.innerHTML); 
+            evaluate(calculationElement.innerHTML); 
+        }
+    }
+    // Calculation functions
+    if (event.code == "Backspace" && calculationElement.innerHTML.length != 0 && calculationOutput.innerHTML.length <= 0) {
+        console.log("Cleared");
+        calculationElement.innerHTML = calculationElement.innerHTML.substring(0, calculationElement.innerHTML.length - 1);
+    } else if (event.code == "Backspace" && calculationOutput.innerHTML.length > 0) {
+        resetCalcCheck();
+    }
+    //
+    
+    if (calculationElement.innerHTML.length < 25) {
+        // SYMBOLS
+        if (event.code == "Equal" && shiftKeyDown == true) { calculationElement.innerHTML += "+"; }// Adds + symbol to calculation
+        if (event.code == "Digit5" && shiftKeyDown == true) {  resetCalcCheck(); calculationElement.innerHTML += "%"; }// Adds % symbol to calculation
+        if (event.code == "Minus") {  resetCalcCheck(); calculationElement.innerHTML += "-"; }// Adds - symbol to calculation
+        if (event.code == "KeyX") { resetCalcCheck(); calculationElement.innerHTML += "x"; }
+        //
 
-    if (event.code == "Backspace" && calculationOutput.innerHTML == "") {
-        calculationElement.innerHTML = calculationElement.innerHTML.slice(0, -1); 
-    } else if (event.code == "Backspace" && calculationOutput.innerHTML != "") { 
-        calculationOutput.innerHTML = ""; 
-        calculationElement.innerHTML = "";
-        return;
+        
+    
+        // Adding Digits
+        if (event.code.search("Digit") == 0 && shiftKeyDown == false) {resetCalcCheck(); calculationElement.innerHTML += event.code.slice(-1); }
+        //
     }
 
-    buttons.forEach((element) => {
-        if (event.code == "Digit" + element.innerHTML && calculationElement.innerHTML.length < 36 || event.code == "Key" + element.innerHTML.toUpperCase() && calculationElement.innerHTML.length < 36 ) {
-            if (calculationOutput.innerHTML != "") { calculationOutput.innerHTML = ""; calculationElement.innerHTML = ""; }
-            if (element.innerHTML == "C" || element.innerHTML == "AC") { return; }
-            calculationElement.innerHTML += element.innerHTML;
-        } else if (event.code == "Equal" || event.code == "Enter") {
-            if (shiftKeyDown == false) {
-                evaluate(calculationElement.innerHTML);
-            }
-        }
-    })
 })
 
 document.addEventListener("keyup", (event) => {
-    if (event.code == "ShiftLeft") {
-        shiftKeyDown = false;
-    }
+    if (event.code == "ShiftLeft") { shiftKeyDown = false; }
+})
+
+// Loops through all buttons in the calculator
+buttons.forEach((element) => {
+    // Allows buttons to be clicked
+    element.addEventListener("mouseup", (event) => {
+
+        if (element.innerHTML == "=" && calculationElement.innerHTML.length != 0) { // Checks it is the = button that has been clicked
+            evaluate(calculationElement.innerHTML); // Returns the answer of the calculation
+            console.log(calculationOutput.innerHTML);
+        } else if (element.innerHTML == "C" && calculationElement.innerHTML.length != 0) { // Checks it is the C button that has been clicked
+            //if (calculationOutput.innerHTML.length != 0 || calculationOutput.innerHTML == "Syntax Error") { resetCalcCheck(); }
+            console.log("Halo");
+            if (calculationElement.innerHTML.length > 0 && calculationOutput.innerHTML.length == 0) { console.log("Cleared"); calculationElement.innerHTML = calculationElement.innerHTML.substring(0, calculationElement.innerHTML.length - 1); }
+        } else if (element.innerHTML == "AC" && calculationElement.innerHTML.length != 0) { // Checks it is the AC button that has been clicked
+            console.log(element.innerHTML);
+            console.log("hola");
+            calculationElement.innerHTML = "";
+            calculationOutput.innerHTML = "";
+        } else if (element.innerHTML != "C" && element.innerHTML != "AC" && element.innerHTML != "=") { 
+            if (calculationOutput.innerHTML == "Syntax Error" || calculationOutput.innerHTML != "" ) { // Resets when an answer has been already entered when clicked AC or C
+                calculationElement.innerHTML = "";
+                calculationOutput.innerHTML = "";
+            };
+            console.log("hello");
+            console.log(element.innerHTML);
+            // Adds number or symbol to calculation
+            calculationElement.innerHTML += element.innerHTML;
+        }
+    })
+})
+
+calculationOutput.addEventListener("change", function() {
+    console.log("changed");
 })

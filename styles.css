@@ -1,12 +1,21 @@
-
+html {
+    display: flex;
+    height: 100%;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    flex-direction: column;
+}
 body {
     display: flex;
     min-height: 100%;
-    height: 100vh;
+    height: 100%;
     font-family: 'Roboto', sans-serif;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     background-color: #051923;
+    gap: 20px;
 }
 
 .calculator-container {
@@ -65,10 +74,10 @@ button {
 .button {
     display: flex;
     width: auto;
-    border-radius: 5px;
     justify-content: center;
     align-items: center;
     background-color: #52b788;
+    border-radius: 5px;
 }
 
 
@@ -80,6 +89,7 @@ button {
 	color: inherit;
 	border: none;
 	padding: 0;
+    border-radius: 5px;
 	cursor: pointer;
 	outline: inherit;
     font-size: 1.25em;
@@ -97,13 +107,13 @@ button {
 
 .equals-container {
     width: 195px;
-    background-color: #2d6a4f;
+    background-color: #2dfe54;
     border-radius: 5px;
 }
 
 .equals-container :hover {
     width: 195px;
-    background-color: #1b4332;
+    background-color: #01c425;
     border-radius: 5px;
 }
 
@@ -111,9 +121,23 @@ button {
 .func-button {
     background-color: #226f54;
     font-size: 1.35em;
+    border-radius: 5px;
 }
 
 .func-button :hover {
-    background-color: #02311f;
+    background-color: #1b4332;
     border-radius: 5px;
+}
+
+.git-hub-link {
+    display: flex;
+    color: #8ff8c4;
+    align-items: center;
+    gap: 10px;
+}
+
+img {
+    width: 30px;
+    height: 30px;
+    color: #52b788;
 }
